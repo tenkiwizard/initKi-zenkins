@@ -1,6 +1,6 @@
 <?php
 /**
- * Gitlab users model
+ * Gitlab projects model
  *
  * @package app
  * @subpackage zenkins
@@ -11,9 +11,9 @@
 
 namespace Zenkins;
 
-class Model_Gitlab_Users extends Model_Gitlab
+class Model_Gitlab_Projects extends Model_Gitlab
 {
-	protected static $original_table_name = 'users';
+	protected static $original_table_name = 'projects';
 
 	public function build_query(array $params = array())
 	{

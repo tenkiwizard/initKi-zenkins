@@ -3,20 +3,22 @@
 return array(
 	'gitlab' => array(
 		'push' =>
-			"■Pushが発生しました\n".
+			"[info]".
+			"[title]Pushが発生しました[/title]\n".
 			"した人：:user_name\n".
 			"対象リポジトリ：:repository.name\n".
-			"差分を見る：:repository.homepage/compare/:before...:after",
+			"差分を見る：:repository.homepage/compare/:before...:after".
+			"[/info]",
 		'mergerequest' =>
-			"■Merge Request【!:iid :title】が :state になりました\n".
-			"した人：:author_id\n".
-			"された人：:assignee_id\n".
-			":source_project_id :source_branch → :target_project_id :target_branch\n".
+			"[info]".
+			"[title]Merge Request【!:iid :title】が :state になりました[/title]\n".
+			"した人：:author\n".
+			"された人：:assignee\n".
+			":source_project :source_branch → :target_project :target_branch\n".
 			"マージステータス（って何？）は :merge_status です。\n".
 			"差分を見る：未実装\n".
 			"コメント：\n".
-			"--------------------\n".
-			":description\n".
-			"--------------------",
+			"[hr]:description[hr]".
+			"[/info]",
 	),
 );

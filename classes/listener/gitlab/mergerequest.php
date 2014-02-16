@@ -17,5 +17,25 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 	{
 		parent::__construct();
 		$this->things = \Arr::get($this->things, 'object_attributes');
+		$this->things = $this->call($this->things);
+	}
+
+	private function call($things)
+	{
+		$users = Talker_Gitlab_Users::forge();
+		$things['author'] = \Arr::get($users->talk(array(
+			'id' => \Arr::get($things, 'author_id'))), 'name');
+		$things['assignee'] = \Arr::get($users->talk(array(
+			'id' => \Arr::get($things, 'assignee_id'))), 'name');
+		$projects = Talker_Gitlab_Projects::forge();
+		$things['source_project'] = \Arr::get(
+			$projects->talk(
+				array('id' => \Arr::get($things, 'source_project_id'))),
+			'name_with_namespace');
+		$things['target_project'] = \Arr::get(
+			$projects->talk(
+				array('id' => \Arr::get($things, 'target_project_id'))),
+			'name_with_namespace');
+		return $things;
 	}
 }
