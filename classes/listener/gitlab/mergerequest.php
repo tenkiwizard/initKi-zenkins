@@ -16,7 +16,7 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 	public function __construct()
 	{
 		parent::__construct();
-		$this->things = \Arr::get($this->things, 'object_attributes');
+		$this->things = \Arr::get($this->things, 'object_attributes', array());
 		$this->things = $this->call($this->things);
 	}
 
