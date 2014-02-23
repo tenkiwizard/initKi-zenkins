@@ -53,6 +53,7 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 
 	private function assume_same(array $things)
 	{
+		if (\Arr::get($things, 'merge_status') == 'unchecked') return true;
 		$last = $this->last($things);
 		$now = $this->now($things);
 		if ($last['id'] == $now['id'] and
@@ -71,20 +72,17 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 		! file_exists($path.$file) and \File::create($path, $file);
 		try
 		{
-			$data = \File::read($path.$file, true);
+			$csv = \File::read($path.$file, true);
 		}
 		catch (\Exception $e)
 		{
 			return false;
 		}
 
-		$csv = \Format::forge($data, 'csv')->to_array();
+		$last = \Format::forge($csv, 'csv')->to_array()[0];
 		\File::update(
 			$path, $file, \Format::forge($this->now($things))->to_csv());
-		return array(
-			'id' => \Arr::get($csv, 0, 0),
-			'updated_at' => \Arr::get($csv, 1, 0),
-			);
+		return $last;
 	}
 
 	private function now(array $things)
