@@ -24,7 +24,7 @@ class Listener_Gitlab_Mr extends Listener_Gitlab_Mergerequest
 
 class Listener_Gitlab_Mr_Nulldata extends Listener_Gitlab_Mr
 {
-    public static $data = null;
+	public static $data = null;
 }
 
 /**

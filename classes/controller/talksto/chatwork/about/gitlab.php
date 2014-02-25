@@ -21,7 +21,7 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 		$api_key = $this->override('api_key', $api_key);
 
 		$things = Listener_Gitlab_Push::forge()->listen();
-		$body = __('gitlab.push', \Arr::flatten($things, '.'));
+		$body = __('gitlab.push.matter', \Arr::flatten($things, '.'));
 
 		\Log::debug('ZENKINS_SAYS => '.$body, __METHOD__);
 
@@ -38,7 +38,7 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 		$api_key = $this->override('api_key', $api_key);
 
 		$things = Listener_Gitlab_Mergerequest::forge()->listen();
-		$body = __('gitlab.mergerequest', \Arr::flatten($things, '.'));
+		$body = __('gitlab.mergerequest.matter', \Arr::flatten($things, '.'));
 
 		\Log::debug('ZENKINS_SAYS => '.$body, __METHOD__);
 
