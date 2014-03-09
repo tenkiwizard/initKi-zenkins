@@ -18,9 +18,10 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 		parent::__construct();
 		$this->things = \Arr::get($this->things, 'object_attributes', array());
 		$this->things = $this->call($this->things);
+		$this->things = $this->paraphrase($this->things);
 	}
 
-	private function call($things)
+	private function call(array $things)
 	{
 		$users = Talker_Gitlab_Users::forge();
 		$things['author'] = \Arr::get($users->talk(array(
@@ -36,6 +37,16 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 			$projects->talk(
 				array('id' => \Arr::get($things, 'target_project_id'))),
 			'name_with_namespace');
+		$things['web_url'] = \Arr::get(
+			$projects->talk(
+				array('id' => \Arr::get($things, 'target_project_id'))),
+			'web_url');
+		return $things;
+	}
+
+	private function paraphrase(array $things)
+	{
+		// TODO implement
 		return $things;
 	}
 }

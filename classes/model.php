@@ -20,7 +20,7 @@ abstract class Model extends \Query\Model_Api
 	 * @var $base_url
 	 *
 	 * \Initki::Api::$base_urlがスタティックなプロパティのため、
-	 * 1プロセス内で複数Web APIにリクエストするzenkinsでは使用しづらい
+	 * 1プロセス内で複数Web APIにリクエストするzenkinsでは活用しづらい
 	 */
 	// protected static $base_url = '';
 

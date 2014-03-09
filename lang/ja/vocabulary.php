@@ -15,12 +15,10 @@ return array(
 			'matter' =>
 				"[info]".
 				"[title]Merge Request【!:iid :title】が :state になりました[/title]\n".
-				"した人：:author\n".
-				"された人：:assignee\n".
-				":source_project :source_branch → :target_project :target_branch\n".
-				"マージステータス（って何？）は :merge_status です。\n".
-				"差分を見る：未実装\n".
-				"コメント：\n".
+				"URL: :web_url/merge_requests/:iid\n".
+				"・:author → :assignee\n".
+				"・:source_project :source_branch → :target_project :target_branch\n".
+				"【:merge_status】\n".
 				"[hr]:description[hr]".
 				"[/info]",
 			),

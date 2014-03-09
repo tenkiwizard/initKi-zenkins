@@ -22,9 +22,7 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 
 		$things = Listener_Gitlab_Push::forge()->listen();
 		$body = __('gitlab.push.matter', \Arr::flatten($things, '.'));
-
 		\Log::debug('ZENKINS_SAYS => '.$body, __METHOD__);
-
 		Talker_Chatwork::forge($api_key)
 			->talk(array(
 				'room_id' => $room_id,
@@ -38,12 +36,14 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 		$api_key = $this->override('api_key', $api_key);
 
 		$things = Listener_Gitlab_Mergerequest::forge()->listen();
+		if ($this->assume_same($things))
+		{
+			\Log::debug('ZENKINS_SAYS => I ASSUME SAME', __METHOD__);
+			return;
+		}
+
 		$body = __('gitlab.mergerequest.matter', \Arr::flatten($things, '.'));
-
 		\Log::debug('ZENKINS_SAYS => '.$body, __METHOD__);
-
-		if ($this->assume_same($things)) return;
-
 		Talker_Chatwork::forge($api_key)
 			->talk(array(
 				'room_id' => $room_id,
@@ -79,7 +79,7 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 			return false;
 		}
 
-		$last = \Format::forge($csv, 'csv')->to_array()[0];
+		$last = \Arr::get(\Format::forge($csv, 'csv')->to_array(), 0);
 		\File::update(
 			$path, $file, \Format::forge($this->now($things))->to_csv());
 		return $last;
