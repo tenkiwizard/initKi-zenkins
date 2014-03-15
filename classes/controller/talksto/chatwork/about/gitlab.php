@@ -13,8 +13,6 @@ namespace Zenkins;
 
 class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 {
-	const ASSUME_SAME = 1000; // milli socond
-
 	public function post_push($room_id = null, $api_key = null)
 	{
 		$room_id = $this->override('room_id', $room_id, 'required');
@@ -51,22 +49,22 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 				));
 	}
 
+	private static $collections = array(
+		'id',
+		'assignee_id',
+		'state',
+		'merge_status',
+		'description',
+		);
+
 	private function assume_same(array $things)
 	{
-		if (\Arr::get($things, 'merge_status') == 'unchecked') return true;
-		$last = $this->last($things);
-		$now = $this->now($things);
-		if ($last['id'] == $now['id'] and
-			($now['updated_at'] - $last['updated_at']) < static::ASSUME_SAME)
+		if (\Arr::get($things, 'merge_status') == 'unchecked' or
+			\Arr::get($things, 'state') == 'locked')
 		{
 			return true;
 		}
 
-		return false;
-	}
-
-	private function last(array $things)
-	{
 		$path = __DIR__.'/../../../../../data/';
 		$file = 'gitlab.merge_request';
 		! file_exists($path.$file) and \File::create($path, $file);
@@ -79,19 +77,49 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 			return false;
 		}
 
-		$last = \Arr::get(\Format::forge($csv, 'csv')->to_array(), 0);
-		\File::update(
-			$path, $file, \Format::forge($this->now($things))->to_csv());
-		return $last;
-	}
+		$merge_requests = \Format::forge($csv, 'csv')->to_array();
+		$ids = array();
+		if (array_key_exists('id', \Arr::get($merge_requests, 0, array())))
+		{
+			$ids = \Arr::pluck($merge_requests, 'id');
+		}
 
-	private function now(array $things)
-	{
 		$id = \Arr::get($things, 'id');
-		$updated_at = \Arr::get($things, 'updated_at');
-		return array(
-			'id' => $id,
-			'updated_at' => preg_replace('/[^0-9]/', '', $updated_at),
-			);
+		$index = array_search($id, $ids);
+		$last = array();
+		if ($index !== false)
+		{
+			$fields = \Arr::get($merge_requests, $index);
+			$last = \Arr::subset($fields, static::$collections);
+		}
+
+		$now = \Arr::subset($things, static::$collections);
+		if ($last == $now) return true;
+		if (\Arr::get($now, 'state') == 'reopened')
+		{
+			\Arr::delete($merge_requests, $index);
+		}
+		else
+		{
+			if ($index !== false)
+			{
+				$merge_requests[$index] = $now;
+			}
+			else
+			{
+				$merge_requests[] = $now;
+			}
+		}
+
+		if (empty($merge_requests))
+		{
+			\File::delete($path.$file);
+		}
+		else
+		{
+			\File::update($path, $file, \Format::forge($merge_requests)->to_csv());
+		}
+
+		return false;
 	}
 }
