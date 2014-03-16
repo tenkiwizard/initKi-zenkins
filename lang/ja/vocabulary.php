@@ -8,7 +8,7 @@ return array(
 				"[title]Pushが発生しました[/title]\n".
 				"した人：:user_name\n".
 				"対象リポジトリ：:repository.name\n".
-				"差分を見る：:repository.homepage/compare/:before...:after".
+				"差分を見る：:diff_url".
 				"[/info]",
 			),
 		'mergerequest' => array(

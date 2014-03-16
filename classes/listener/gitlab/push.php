@@ -11,4 +11,29 @@
 
 namespace Zenkins;
 
-class Listener_Gitlab_Push extends Listener_Gitlab {}
+class Listener_Gitlab_Push extends Listener_Gitlab
+{
+	public function __construct()
+	{
+		parent::__construct();
+		$this->things = $this->paraphrase($this->things);
+	}
+
+	private function paraphrase(array $things)
+	{
+		$diff_url = \Arr::get($things, 'repository.homepage');
+		if ((int) $things['before'])
+		{
+			$diff_url .=
+				'/compare/'.\Arr::get($things, 'before').
+				'...'.\Arr::get($things, 'after');
+		}
+		else
+		{
+			$diff_url .= '/commit/'.\Arr::get($things, 'after');
+		}
+
+		$things['diff_url'] = $diff_url;
+		return $things;
+	}
+}
