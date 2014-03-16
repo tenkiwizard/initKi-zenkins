@@ -11,7 +11,7 @@
 
 namespace Zenkins;
 
-class Controller extends \Initki\Controller_Restful
+abstract class Controller extends \Initki\Controller_Restful
 {
 	protected static $needs_ssl = true;
 
@@ -20,7 +20,7 @@ class Controller extends \Initki\Controller_Restful
 	public function before()
 	{
 		parent::before();
-		$this->things();
+		$this->things = $this->things();
 		\Lang::load('zenkins::vocabulary');
 	}
 
@@ -31,10 +31,7 @@ class Controller extends \Initki\Controller_Restful
 
 	protected function things()
 	{
-		foreach (\Input::param() as $key => $val)
-		{
-			$this->things[$key] = $val;
-		}
+		return \Input::param();
 	}
 
 	protected function override($key, $val, $required = false)

@@ -24,7 +24,7 @@ class Concrete_Listener_Gitlab extends Listener_Gitlab
 
 class Concrete_Listener_Gitlab_Nulldata extends Concrete_Listener_Gitlab
 {
-    public static $data = null;
+	public static $data = null;
 }
 
 /**
