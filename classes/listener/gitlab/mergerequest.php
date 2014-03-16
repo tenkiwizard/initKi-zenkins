@@ -23,6 +23,7 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 
 	private function call(array $things)
 	{
+		if (empty($things)) return $things;
 		$users = Talker_Gitlab_Users::forge();
 		$things['author'] = \Arr::get($users->talk(array(
 			'id' => \Arr::get($things, 'author_id'))), 'name');
@@ -46,7 +47,10 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 
 	private function paraphrase(array $things)
 	{
-		// TODO implement
+		$state = __('gitlab.mergerequest.state.'.\Arr::get($things, 'state'));
+		$things['state'] = $state ?: $things['state'];
+		$merge_status = __('gitlab.mergerequest.merge_status.'.\Arr::get($things, 'merge_status'));
+		$things['merge_status'] = $merge_status ?: $things['merge_status'];
 		return $things;
 	}
 }

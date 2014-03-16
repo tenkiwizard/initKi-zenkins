@@ -71,6 +71,9 @@ class Test_Listener_Gitlab extends \TestCase
 
 	public function test_listen_nulldata()
 	{
+		$actual = Concrete_Listener_Gitlab_Nulldata::forge()->listen();
+		$this->assertEquals(array(), $actual);
+
 		$actual = Concrete_Listener_Gitlab_Nulldata::forge()->listen('object_attributes');
 		$this->assertNull($actual);
 	}

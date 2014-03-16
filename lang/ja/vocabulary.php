@@ -14,13 +14,21 @@ return array(
 		'mergerequest' => array(
 			'matter' =>
 				"[info]".
-				"[title]Merge Request【!:iid :title】が :state になりました[/title]\n".
+				"[title]Merge Request【!:iid :title】が :state[/title]\n".
 				"URL: :web_url/merge_requests/:iid\n".
 				"・:author → :assignee\n".
 				"・:source_project :source_branch → :target_project :target_branch\n".
 				"【:merge_status】\n".
 				"[hr]:description[hr]".
 				"[/info]",
+			'state' => array(
+				'opened' => 'オープンされました',
+				'reopened' => 'マージされました',
+				),
+			'merge_status' => array(
+				'can_be_merged' => '自動マージ可',
+				'can_not_be_merged' => '自動マージ不可',
+				),
 			),
 		),
 	);
