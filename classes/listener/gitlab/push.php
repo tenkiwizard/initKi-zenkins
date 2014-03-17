@@ -22,7 +22,7 @@ class Listener_Gitlab_Push extends Listener_Gitlab
 	private function paraphrase(array $things)
 	{
 		$diff_url = \Arr::get($things, 'repository.homepage');
-		if ((int) $things['before'])
+		if ((int) \Arr::get($things, 'before'))
 		{
 			$diff_url .=
 				'/compare/'.\Arr::get($things, 'before').

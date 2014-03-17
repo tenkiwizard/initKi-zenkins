@@ -103,7 +103,8 @@ class Model_Gitlab_Mergerequest
 
 	private static function assumes_merged(array $things)
 	{
-		return \Arr::get($things, 'state') == 'reopened';
+		if (\Arr::get($things, 'state') == __('gitlab.mergerequest.state.merged')) return true;
+		return false;
 	}
 
 	private static function ignores(array $things)

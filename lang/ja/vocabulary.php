@@ -23,7 +23,7 @@ return array(
 				"[/info]",
 			'state' => array(
 				'opened' => 'オープンされました',
-				'reopened' => 'マージされました',
+				'merged' => 'マージされました',
 				),
 			'merge_status' => array(
 				'can_be_merged' => '自動マージ可',
