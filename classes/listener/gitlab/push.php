@@ -22,15 +22,19 @@ class Listener_Gitlab_Push extends Listener_Gitlab
 	private function paraphrase(array $things)
 	{
 		$diff_url = \Arr::get($things, 'repository.homepage');
-		if ((int) \Arr::get($things, 'before'))
+		if ( ! (int) \Arr::get($things, 'before'))
 		{
-			$diff_url .=
-				'/compare/'.\Arr::get($things, 'before').
-				'...'.\Arr::get($things, 'after');
+			$diff_url .= '/commit/'.\Arr::get($things, 'after');
+		}
+		elseif ( ! (int) \Arr::get($things, 'after'))
+		{
+			$diff_url = substr(\Arr::get($things, 'ref'), 11).
+				__('gitlab.push.deleted');
 		}
 		else
 		{
-			$diff_url .= '/commit/'.\Arr::get($things, 'after');
+			$diff_url .= '/compare/'.\Arr::get($things, 'before').'...'.
+				\Arr::get($things, 'after');
 		}
 
 		$things['diff_url'] = $diff_url;

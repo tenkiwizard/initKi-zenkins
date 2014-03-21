@@ -17,6 +17,13 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 	{
 		parent::__construct();
 		$this->things = \Arr::get($this->things, 'object_attributes', array());
+		if (Model_Gitlab_Mergerequest::forge()->assumes_same($this->things))
+		{
+			\Log::debug('ZENKINS_SAYS => I ASSUME SAME', __METHOD__);
+			$this->things = array();
+			return;
+		}
+
 		$this->things = $this->call($this->things);
 		$this->things = $this->paraphrase($this->things);
 	}
@@ -48,9 +55,9 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 	private function paraphrase(array $things)
 	{
 		$state = __('gitlab.mergerequest.state.'.\Arr::get($things, 'state'));
-		$things['state'] = $state ?: $things['state'];
+		$things['state'] = $state ?: \Arr::get($things, 'state');
 		$merge_status = __('gitlab.mergerequest.merge_status.'.\Arr::get($things, 'merge_status'));
-		$things['merge_status'] = $merge_status ?: $things['merge_status'];
+		$things['merge_status'] = $merge_status ?: \Arr::get($things, 'merge_status');
 		return $things;
 	}
 }

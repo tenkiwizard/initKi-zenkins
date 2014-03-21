@@ -10,6 +10,7 @@ return array(
 				"対象リポジトリ：:repository.name\n".
 				"差分を見る：:diff_url".
 				"[/info]",
+			'deleted' => 'ブランチは削除された模様です。',
 			),
 		'mergerequest' => array(
 			'matter' =>
