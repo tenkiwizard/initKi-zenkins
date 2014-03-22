@@ -15,5 +15,5 @@ class Model_Gitlab extends Model
 {
 	const CONFIG_SECTION = 'gitlab';
 	const CONFIG_API_KEY = 'private_token';
-	const MODEL_TO_TABLE_PATTERN = '/^gitlab_/i';
+	const TABLEIZE_PATTERN = '/^gitlab_/i';
 }

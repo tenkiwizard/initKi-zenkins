@@ -15,7 +15,7 @@ class Model_Chatwork extends Model
 {
 	const CONFIG_SECTION = 'chatwork';
 	const CONFIG_API_KEY = 'X-ChatWorkToken';
-	const MODEL_TO_TABLE_PATTERN = '/^chatwork_/i';
+	const TABLEIZE_PATTERN = '/^chatwork_/i';
 
 	protected static function api($name, $method = 'get')
 	{

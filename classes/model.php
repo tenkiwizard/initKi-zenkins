@@ -15,7 +15,7 @@ abstract class Model extends \Query\Model_Api
 {
 	const CONFIG_SECTION = '';
 	const CONFIG_API_KEY = 'api_key';
-	const MODEL_TO_TABLE_PATTERN = '';
+	const TABLEIZE_PATTERN = '';
 
 	/**
 	 * @var $base_url
@@ -44,7 +44,12 @@ abstract class Model extends \Query\Model_Api
 
 	public static function table()
 	{
-		return preg_replace(static::MODEL_TO_TABLE_PATTERN, '', parent::table());
+		if ($pattern = static::TABLEIZE_PATTERN)
+		{
+			return preg_replace($pattern, '', parent::table());
+		}
+
+		return parent::table();
 	}
 
 	protected static function proc_table_name(array $params)
