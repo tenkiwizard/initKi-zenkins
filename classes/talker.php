@@ -16,6 +16,7 @@ abstract class Talker
 	protected static $model = null;
 	protected static $things = array();
 	protected static $api_key = null;
+	protected static $method = 'get';
 
 	public static function forge($api_key = null)
 	{
@@ -39,6 +40,6 @@ abstract class Talker
 		return $model::forge()
 			->api_key(static::$api_key)
 			->build_query(static::$things)
-			->get();
+			->{static::$method}();
 	}
 }
