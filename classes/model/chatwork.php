@@ -15,6 +15,7 @@ class Model_Chatwork extends Model
 {
 	const CONFIG_SECTION = 'chatwork';
 	const CONFIG_API_KEY = 'X-ChatWorkToken';
+	const MODEL_TO_TABLE_PATTERN = '/^chatwork_/i';
 
 	protected static function api($name, $method = 'get')
 	{
@@ -22,10 +23,5 @@ class Model_Chatwork extends Model
 			static::$query[static::CONFIG_API_KEY];
 		unset(static::$query[static::CONFIG_API_KEY]);
 		return parent::api($name, $method);
-	}
-
-	public static function table()
-	{
-		return preg_replace('/^chatwork_/i', '', parent::table());
 	}
 }

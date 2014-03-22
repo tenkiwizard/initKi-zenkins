@@ -15,6 +15,7 @@ abstract class Model extends \Query\Model_Api
 {
 	const CONFIG_SECTION = '';
 	const CONFIG_API_KEY = 'api_key';
+	const MODEL_TO_TABLE_PATTERN = '';
 
 	/**
 	 * @var $base_url
@@ -39,5 +40,25 @@ abstract class Model extends \Query\Model_Api
 	{
 		$api_key and static::$query[static::CONFIG_API_KEY] = $api_key;
 		return $this;
+	}
+
+	public static function table()
+	{
+		return preg_replace(static::MODEL_TO_TABLE_PATTERN, '', parent::table());
+	}
+
+	protected static function proc_table_name(array $params)
+	{
+		static::$_table_name = '';
+		$table_segments = explode('_', static::table());
+		$uri_segments = array();
+		foreach ($table_segments as $segment)
+		{
+			$uri_segments[] = $segment;
+			$param = array_shift($params);
+			if ($param) $uri_segments[] = $param;
+		}
+
+		return implode('/', $uri_segments);
 	}
 }
