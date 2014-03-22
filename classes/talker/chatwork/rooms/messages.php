@@ -1,6 +1,6 @@
 <?php
 /**
- * Gitlab talker about users
+ * ChatWork rooms messages talker
  *
  * @package app
  * @subpackage zenkins
@@ -11,8 +11,8 @@
 
 namespace Zenkins;
 
-class Talker_Chatwork extends Talker
+class Talker_Chatwork_Rooms_Messages extends Talker
 {
-	protected static $model = 'Zenkins\Model_Chatwork_Rooms';
+	protected static $model = 'Zenkins\Model_Chatwork_Rooms_Messages';
 	protected static $method = 'post';
 }

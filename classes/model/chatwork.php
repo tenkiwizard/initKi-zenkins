@@ -23,4 +23,9 @@ class Model_Chatwork extends Model
 		unset(static::$query[static::CONFIG_API_KEY]);
 		return parent::api($name, $method);
 	}
+
+	public static function table()
+	{
+		return preg_replace('/^chatwork_/i', '', parent::table());
+	}
 }

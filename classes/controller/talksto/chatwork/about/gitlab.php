@@ -26,7 +26,7 @@ class Controller_Talksto_Chatwork_About_Gitlab extends Controller
 		$kind = strtolower($matches[0]);
 		$body = __('gitlab.'.$kind.'.matter', \Arr::flatten($things, '.'));
 		\Log::debug('ZENKINS_SAYS => '.$body, __METHOD__);
-		Talker_Chatwork::forge($api_key)
+		Talker_Chatwork_Rooms_Messages::forge($api_key)
 			->talk(array(
 				'room_id' => $room_id,
 				'body' => $body,
