@@ -87,6 +87,7 @@ class Model_Gitlab_Mergerequest
 			}
 		}
 
+		// TODO: Move to $this->save() called by __destruct()?
 		if (empty(static::$merge_requests))
 		{
 			\File::delete(static::$path.static::$file);

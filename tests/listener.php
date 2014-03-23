@@ -1,7 +1,7 @@
 <?php
 namespace Zenkins;
 
-class Concrete_Listener_Gitlab extends Listener_Gitlab
+class Concrete_Listener extends Listener
 {
 	public static $data = array(
 		'object_kind' => 'issues',
@@ -22,59 +22,59 @@ class Concrete_Listener_Gitlab extends Listener_Gitlab
 	}
 }
 
-class Concrete_Listener_Gitlab_Nulldata extends Concrete_Listener_Gitlab
+class Concrete_Listener_Nulldata extends Concrete_Listener
 {
 	public static $data = null;
 }
 
 /**
- * Listener_Gitlab class Tests
+ * Listener class Tests
  *
  * @group Modules
  */
 
-class Test_Listener_Gitlab extends \TestCase
+class Test_Listener extends \TestCase
 {
 	public function test_toString()
 	{
-		$expected = json_encode(Concrete_Listener_Gitlab::$data);
-		$actual = (string) Concrete_Listener_Gitlab::forge();
+		$expected = json_encode(Concrete_Listener::$data);
+		$actual = (string) Concrete_Listener::forge();
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_listen()
 	{
-		$expected = Concrete_Listener_Gitlab::$data;
-		$actual = Concrete_Listener_Gitlab::forge()->listen();
+		$expected = Concrete_Listener::$data;
+		$actual = Concrete_Listener::forge()->listen();
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_listen_a_field_is_string()
 	{
-		$expected = Concrete_Listener_Gitlab::$data['object_kind'];
-		$actual = Concrete_Listener_Gitlab::forge()->listen('object_kind');
+		$expected = Concrete_Listener::$data['object_kind'];
+		$actual = Concrete_Listener::forge()->listen('object_kind');
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_listen_a_field_is_array()
 	{
-		$expected = Concrete_Listener_Gitlab::$data['object_attributes'];
-		$actual = Concrete_Listener_Gitlab::forge()->listen('object_attributes');
+		$expected = Concrete_Listener::$data['object_attributes'];
+		$actual = Concrete_Listener::forge()->listen('object_attributes');
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_listen_not_exist_field()
 	{
-		$actual = Concrete_Listener_Gitlab::forge()->listen('fugahoge');
+		$actual = Concrete_Listener::forge()->listen('fugahoge');
 		$this->assertNull($actual);
 	}
 
 	public function test_listen_nulldata()
 	{
-		$actual = Concrete_Listener_Gitlab_Nulldata::forge()->listen();
+		$actual = Concrete_Listener_Nulldata::forge()->listen();
 		$this->assertEquals(array(), $actual);
 
-		$actual = Concrete_Listener_Gitlab_Nulldata::forge()->listen('object_attributes');
+		$actual = Concrete_Listener_Nulldata::forge()->listen('object_attributes');
 		$this->assertNull($actual);
 	}
 }

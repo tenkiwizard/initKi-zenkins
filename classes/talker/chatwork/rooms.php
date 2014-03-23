@@ -1,6 +1,6 @@
 <?php
 /**
- * GitLab pushes listener
+ * ChatWork rooms talker
  *
  * @package app
  * @subpackage zenkins
@@ -11,10 +11,7 @@
 
 namespace Zenkins;
 
-abstract class Listener_Gitlab extends Listener
+class Talker_Chatwork_Rooms extends Talker
 {
-	protected function things()
-	{
-		return \Input::json();
-	}
+	protected static $model = 'Zenkins\Model_Chatwork_Rooms';
 }
