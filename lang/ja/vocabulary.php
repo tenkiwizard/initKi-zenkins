@@ -32,4 +32,14 @@ return array(
 				),
 			),
 		),
+	'chatwork' => array(
+		'tasks' => array(
+			'matter' =>
+				"[To::account.account_id] :account.nameさん".
+				"[info]".
+				"[title]期限を過ぎたタスクがあります[/title]".
+				"[task aid=:account.account_id st=:status lt=:limit_time]:body[/task]".
+				"[/info]",
+			),
+		),
 	);
