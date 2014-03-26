@@ -4,10 +4,10 @@
  * Init task
  *
  * Run this task to set default write permissions and environment stuff
- * for hituzi.
+ * for zenkins.
  *
  * @category initKi
- * @package hituzi
+ * @package zenkins
  * @subpackage tasks
  * @author kawamura.hryk
  * @license MIT License
@@ -20,7 +20,7 @@ class Init
 {
 	public static function run()
 	{
-		$writable_paths = array(APPPATH.'modules/hituzi/data');
+		$writable_paths = array(APPPATH.'modules/zenkins/data');
 
 		foreach ($writable_paths as $path)
 		{
