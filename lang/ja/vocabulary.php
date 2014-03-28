@@ -28,7 +28,7 @@ return array(
 				),
 			'merge_status' => array(
 				'can_be_merged' => '自動マージ可',
-				'can_not_be_merged' => '自動マージ不可',
+				'cannot_be_merged' => '自動マージ不可',
 				),
 			),
 		),
