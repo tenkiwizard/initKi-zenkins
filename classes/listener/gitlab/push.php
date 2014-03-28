@@ -21,12 +21,13 @@ class Listener_Gitlab_Push extends Listener_Gitlab
 
 	private function paraphrase(array $things)
 	{
+		$null_hash = '0000000000000000000000000000000000000000';
 		$diff_url = \Arr::get($things, 'repository.homepage');
-		if ( ! (int) \Arr::get($things, 'before'))
+		if (\Arr::get($things, 'before') === $null_hash)
 		{
 			$diff_url .= '/commit/'.\Arr::get($things, 'after');
 		}
-		elseif ( ! (int) \Arr::get($things, 'after'))
+		elseif (\Arr::get($things, 'after') === $null_hash)
 		{
 			$diff_url = substr(\Arr::get($things, 'ref'), 11).
 				__('gitlab.push.deleted');
