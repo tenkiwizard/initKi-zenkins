@@ -45,6 +45,7 @@ class Chatwork
 			if ($no_limited) $no_limited_tasks[$room] = $no_limited;
 		}
 
+		\Lang::load('zenkins::vocabulary');
 		foreach ($expired_tasks as $room_id => $expireds)
 		{
 			foreach ($expireds as $task)
