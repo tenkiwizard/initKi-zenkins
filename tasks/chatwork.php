@@ -26,7 +26,8 @@ class Chatwork
 
 		if ( ! is_array($talkable_rooms)) $talkable_rooms = array();
 
-		$tasks = array();
+		$expired_tasks = array();
+		$no_limited_tasks = array();
 		foreach ($talkable_rooms as $room)
 		{
 			$tasks_per_room = \Zenkins\Talker_ChatWork_Rooms_Tasks::forge()
@@ -37,15 +38,32 @@ class Chatwork
 			$expired =
 				\Zenkins\Listener_Chatwork_Rooms_Tasks::forge($tasks_per_room)
 					->expired()->listen();
-			if ($expired) $tasks[$room] = $expired;
+			if ($expired) $expired_tasks[$room] = $expired;
+			$no_limited =
+				\Zenkins\Listener_Chatwork_Rooms_Tasks::forge($tasks_per_room)
+					->no_limited()->listen();
+			if ($no_limited) $no_limited_tasks[$room] = $no_limited;
 		}
 
-		\Lang::load('zenkins::vocabulary');
-		foreach ($tasks as $room_id => $expireds)
+		foreach ($expired_tasks as $room_id => $expireds)
 		{
 			foreach ($expireds as $task)
 			{
-				$body = __('chatwork.tasks.matter', \Arr::flatten($task, '.'));
+				$body = __('chatwork.tasks.expired', \Arr::flatten($task, '.'));
+				\Log::debug('ZENKINS_SAYS => '.$body, __METHOD__);
+				\Zenkins\Talker_Chatwork_Rooms_Messages::forge($api_key)
+					->talk(array(
+						'room_id' => $room_id,
+						'body' => $body,
+						));
+			}
+		}
+
+		foreach ($no_limited_tasks as $room_id => $no_limiteds)
+		{
+			foreach ($no_limiteds as $task)
+			{
+				$body = __('chatwork.tasks.no_limiteds', \Arr::flatten($task, '.'));
 				\Log::debug('ZENKINS_SAYS => '.$body, __METHOD__);
 				\Zenkins\Talker_Chatwork_Rooms_Messages::forge($api_key)
 					->talk(array(
@@ -56,4 +74,3 @@ class Chatwork
 		}
 	}
 }
-

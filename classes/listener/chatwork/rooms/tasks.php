@@ -22,8 +22,20 @@ class Listener_Chatwork_Rooms_Tasks extends Listener
 	public function expired($timestamp = null)
 	{
 		if (is_null($timestamp)) $timestamp = time();
-		$filter = function($task) {
-			return \Arr::get($task, 'limit_time') < time();
+		$filter = function ($task) use ($timestamp) {
+			$limit_time = \Arr::get($task, 'limit_time');
+			return $limit_time > 0 and $limit_time < $timestamp;
+		};
+
+		$this->things = array_filter($this->things, $filter);
+		return $this;
+	}
+
+	public function no_limited()
+	{
+		$filter = function ($task) {
+			$limit_time = \Arr::get($task, 'limit_time');
+			return $limit_time == 0;
 		};
 
 		$this->things = array_filter($this->things, $filter);

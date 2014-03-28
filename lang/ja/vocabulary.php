@@ -34,10 +34,16 @@ return array(
 		),
 	'chatwork' => array(
 		'tasks' => array(
-			'matter' =>
+			'expired' =>
 				"[To::account.account_id] :account.nameさん".
 				"[info]".
 				"[title]期限を過ぎたタスクがあります[/title]".
+				"[task aid=:account.account_id st=:status lt=:limit_time]:body[/task]".
+				"[/info]",
+			'no_limiteds' =>
+				"[To::assigned_by_account.account_id] :assigned_by_account.nameさん".
+				"[info]".
+				"[title]このタスクには期限が設定されてません[/title]".
 				"[task aid=:account.account_id st=:status lt=:limit_time]:body[/task]".
 				"[/info]",
 			),
