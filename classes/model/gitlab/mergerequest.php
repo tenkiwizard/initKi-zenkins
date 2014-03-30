@@ -13,7 +13,9 @@ namespace Zenkins;
 
 class Model_Gitlab_Mergerequest
 {
-	private static $path = 'data/';
+	const DATA_PATH = 'data/';
+
+	private static $path = '';
 	private static $file = 'gitlab.merge_request';
 	private static $merge_requests = array();
 	private static $_properties = array(
@@ -38,7 +40,7 @@ class Model_Gitlab_Mergerequest
 		}
 		else
 		{
-			static::$path = __DIR__.'/../../../'.static::$path;
+			static::$path = __DIR__.'/../../../'.static::DATA_PATH;
 		}
 
 		try

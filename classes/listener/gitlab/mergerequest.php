@@ -54,6 +54,7 @@ class Listener_Gitlab_Mergerequest extends Listener_Gitlab
 
 	private function paraphrase(array $things)
 	{
+		if (empty($things)) return $things;
 		$state = __('gitlab.mergerequest.state.'.\Arr::get($things, 'state'));
 		$things['state'] = $state ?: \Arr::get($things, 'state');
 		$merge_status = __('gitlab.mergerequest.merge_status.'.\Arr::get($things, 'merge_status'));
