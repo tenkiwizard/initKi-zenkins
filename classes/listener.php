@@ -37,7 +37,15 @@ abstract class Listener
 	{
 		if ( ! is_null($field) and ! \Arr::is_assoc($this->things))
 		{
-			return \Arr::pluck($this->things, $field);
+			try
+			{
+				return \Arr::pluck($this->things, $field) ?: null;
+			}
+			catch (\PhpErrorException $e)
+			{
+				// $field is undefined index
+				return null;
+			}
 		}
 
 		return ! is_null($field)

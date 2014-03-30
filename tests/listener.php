@@ -77,4 +77,18 @@ class Test_Listener extends \TestCase
 		$actual = Concrete_Listener_Nulldata::forge()->listen('object_attributes');
 		$this->assertNull($actual);
 	}
+
+	public function test_listen_things_is_array_of_assoc()
+	{
+		$data = array(
+			array('fuga' => 'aaa', 'hoge' => 'bbb'),
+			array('fuga' => 'ccc', 'hoge' => 'ddd'),
+			);
+		$expected = array('bbb', 'ddd');
+		$actual = Concrete_Listener::forge($data)->listen('hoge');
+		$this->assertEquals($expected, $actual);
+
+		$actual = Concrete_Listener::forge($data)->listen('fugahoge');
+		$this->assertNull($actual);
+	}
 }
