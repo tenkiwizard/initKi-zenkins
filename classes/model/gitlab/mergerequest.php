@@ -41,18 +41,7 @@ class Model_Gitlab_Mergerequest
 			static::$path = __DIR__.'/../../../'.static::$path;
 		}
 
-		try
-		{
-			! file_exists(static::$path.static::$file) and
-				\File::create(static::$path, static::$file);
-			$csv = \File::read(static::$path.static::$file, true);
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		static::$merge_requests = \Format::forge($csv, 'csv')->to_array();
+		static::$merge_requests = static::load();
 	}
 
 	public static function assumes_same(array $things)
@@ -87,7 +76,36 @@ class Model_Gitlab_Mergerequest
 			}
 		}
 
-		// TODO: Move to $this->save() called by __destruct()?
+		static::save();
+		return false;
+	}
+
+	private static function assumes_merged(array $things)
+	{
+		if (\Arr::get($things, 'state') == 'merged') return true;
+		return false;
+	}
+
+	private static function ignores(array $things)
+	{
+		if (\Arr::get($things, 'merge_status') == 'unchecked') return true;
+		if (\Arr::get($things, 'state') == 'locked') return true;
+		return false;
+	}
+
+	private static function load()
+	{
+		if (! file_exists(static::$path.static::$file))
+		{
+			\File::create(static::$path, static::$file);
+		}
+
+		$csv = \File::read(static::$path.static::$file, true);
+		return \Format::forge($csv, 'csv')->to_array();
+	}
+
+	private static function save()
+	{
 		if (empty(static::$merge_requests))
 		{
 			\File::delete(static::$path.static::$file);
@@ -98,20 +116,5 @@ class Model_Gitlab_Mergerequest
 				static::$path, static::$file,
 				\Format::forge(static::$merge_requests)->to_csv());
 		}
-
-		return false;
-	}
-
-	private static function assumes_merged(array $things)
-	{
-		if (\Arr::get($things, 'state') == __('gitlab.mergerequest.state.merged')) return true;
-		return false;
-	}
-
-	private static function ignores(array $things)
-	{
-		if (\Arr::get($things, 'merge_status') == 'unchecked') return true;
-		if (\Arr::get($things, 'state') == 'locked') return true;
-		return false;
 	}
 }
